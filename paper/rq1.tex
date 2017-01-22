@@ -75,12 +75,12 @@ Note that a regex can belong to multiple representations, and a regex can belong
 %The process for deciding if a particular pattern belongs to a particular node is described in detail in Section~\ref{communityanalysis}.
 
 
-
+\input{table/nodeCountTable}
 
 
 \subsection{Analysis}
 \label{communityanalysis}
-To determine how many of the representations match patterns in the corpus, we performed an analysis using the PCRE parser and by representing the regexes as token streams, depending on the characteristics of the representation. Our analysis code is available on GitHub\footnote{\url{https://github.com/softwarekitty/regex_readability_study}}. Next, we describe the process in detail:
+To determine how many of the representations match patterns in the corpus, we performed an analysis using the PCRE parser and by representing the regexes as token streams, depending on the characteristics of the representation. Our analysis code is available on GitHub\footnote{\url{http://tinyurl.com/jmeeytk} (this is a git repo - not anonymized)}. Next, we describe the process in detail:
 
 \subsubsection{Presence of a Feature}
 For the representations that only require a particular feature to be present, such as the question-mark in D2, the features identified by the PCRE parser were used to decide membership of patterns in nodes.

@@ -17,8 +17,8 @@
 \label{sec:refactoring}
 %After studying over 13,000 distinct regex strings from Python projects, 
 To facilitate smell identification and explore understandability, we have defined an initial set of equivalence classes for regexes. 
-Using the publicly available behavioral clusters~\cite{chapman2016}, we manually explored how the various clusters were expressed, and identified several representations that appeared in many of the larger clusters. 
-While not a complete set of equivalence classes, this is the first work to explore regex representations and understandability, and these equivalence classes provide an initial testbed that allows us to explore regex comprehension. (Section~\ref{} identifies other equivalence classes left to explore in future work.)
+Using the publicly available behavioral clusters~\cite{chapman2016}, we manually identified several representations that appeared in many of the larger clusters. 
+While not a complete set of equivalence classes, this is the first work to explore regex representations and understandability, and these equivalence classes provide an initial testbed that allows us to explore regex comprehension. (Section~\ref{sec:futureequivclasses} identifies other equivalence classes left to explore in future work.)
 
 %For example,  \verb!AAA*! and \verb!AA+! are semantically identical, except one uses the star operator (indicating zero or more repetitions) and the other uses the plus operator (indicating one or more repetitions).
 %Both match strings with two or more \verb!A!'s.
@@ -26,7 +26,7 @@ Figure~\ref{fig:refactoringTree} displays the five equivalence classes in grey b
 %The undirected edges between the representations define possible refactorings.
 %Identifying the best direction for each arrow in the possible refactorings is discussed in Section~\ref{sec:rq3}.
 %We use concrete regexes in the representations to more clearly illustrate examples of the representations. However, the \verb!A!'s in the LWB group abstractly represent any pattern that could be operated on by a repetition modifier (e.g., literal characters, character classes, or groups). The same is true for the literals used in all the representations. 
-Next, we describe each group, the representations, and possible transformations in detail.
+Next, we describe each group and the representations.
 
 \subsection{Custom Character Class Group}
 The Custom Character Class (CCC) group has regex representations that use the custom character class language feature or can be represented by such a feature.
@@ -61,8 +61,9 @@ The Double-Bounded (DBB) group contains all regex patterns that use some repetit
 
 \begin{description}  \itemsep -1pt
 \item[D1:] Any pattern that  uses the curly brace repetition with a lower and upper bound, such as  \verb!pB{1,3}s!, belongs to the D1 node.
-Note that  \verb!pB{1,3}s! can become \verb!pBB{0,2}s! by pulling the lower bound out of the curly braces and into the explicit sequence (or visa versa). Nonetheless, it would still be part of D1, though this within-node refactoring on D1 is not discussed in this work.
-\item[D2:] Any pattern that uses the questionable (i.e., \verb!?!) modifier implies a lower-bound of zero and an upper-bound of one, and belongs to D2. For example, when a double-bounded regex has zero on the lower bound, as is the case with \verb!pBB{0,2}s!  in D1, transforming it to D2 involves replacing the curly braces with $n$ questionable modifiers, where $n$ is the upper bound,  creating \verb!pBB?B?s!.
+Note that  \verb!pB{1,3}s! can become \verb!pBB{0,2}s! by pulling the lower bound out of the curly braces and into the explicit sequence (or visa versa). Nonetheless, it would still be part of D1.
+%, though this within-node refactoring on D1 is not discussed in this work.
+\item[D2:] Any pattern that uses the questionable (i.e., \verb!?!) modifier implies a lower-bound of zero and an upper-bound of one, and belongs to D2. For example, when a double-bounded regex has zero on the lower bound, such as \verb!pBB{0,2}s!  in D1, an equivalent representation in D2 contains questionable modifiers,  creating \verb!pBB?B?s!.
 \item[D3:] Any pattern that has a repetition with a lower and upper boundary and is expressed using ORs is part of D3.  The example, \verb!pB{1,3}s! would become \verb!pBs|pBBs|pBBs! by expanding on each option in the boundaries.
 %Note also that a pattern can belong to multiple nodes in the DBB group, for example, \verb!(a|aa)X?Y{2,4}! belongs to all three nodes.
 % =======

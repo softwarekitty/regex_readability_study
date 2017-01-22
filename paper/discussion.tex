@@ -34,13 +34,13 @@ Future work could consider richer models with more or different classes and node
 %
 %We have not determined a list of all possible refactoring groups given the functional variety and significant number of features to consider, but we are aware of a few additional equivalence classes outside of our 5 groups, such as:
 Additional equivalence groups to consider may include:
-\begin{description} \itemsep -2pt
+\begin{itemize} \itemsep -2pt
 %\item[Single line option]  \verb!'''(.|\n)+'''! $\equiv$ \verb!(?s)'''(.)+'''!
-\item[Multi line option]  \verb!(?m)G\n! $\equiv$ \verb!(?m)G$!
-\item[Case insensitive]  \verb!(?i)[a-z]! $\equiv$ \verb![A-Za-z]!
-\item[Backreferences]  \verb!(X)q\1! $\equiv$ \verb!(?P<name>X)q\g<name>!
+\item Multi line option:  \verb!(?m)G\n! $\equiv$ \verb!(?m)G$!
+\item Case insensitive:  \verb!(?i)[a-z]! $\equiv$ \verb![A-Za-z]!
+\item Backreferences:  \verb!(X)q\1! $\equiv$ \verb!(?P<name>X)q\g<name>!
 %\item[Word Boundaries]  \verb!\bZ! $\equiv$ \verb!((?<=\w)(?=\W)|(?<=\W)(?=\w))Z!
-\end{description}
+\end{itemize}
 
 
 

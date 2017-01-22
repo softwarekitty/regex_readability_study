@@ -10,14 +10,15 @@
 %%As prior work has shown that regexes are difficult to read~\cite{}, 
 %We focus on refactoring for understandability.
 
-To explore regex comprehension, we compare syntactically different regexes that match the same language. That is, they are behaviorally equivalent but expressed differently. This analysis requires the definition of equivalence classes for regexes. By inspecting  nearly 14,000 regexes extracted from Python projects in a publicly available dataset~\cite{chapmanISSTA}, we formed an initial set of five equivalence classes to explore. The Python regex language has been shown to have a superset of regex language features compared to other languages~\cite{carl's thesis and verify this}.
+To explore regex comprehension and identify smells, we compare syntactically different regexes that match the same language. That is, they are behaviorally equivalent but expressed differently. This analysis requires the definition of equivalence classes for regexes. By inspecting  nearly 14,000 regexes extracted from Python projects in a publicly available dataset~\cite{chapman2016}, we formed an initial set of five equivalence classes to explore. 
 
-We define regex understandability two ways. First,  we  present people with regexes exemplifying some of the more common characteristics and ask them comprehension questions along two directions: determine which of a list of strings are matched by the regex, and compose a string that is matched by the regex. Second, assuming that common programming practices are more understandable than uncommon practices, we explore the frequencies of each representation from Figure~\ref{fig:refactoringTree} using thousands of regexes scraped from Python projects. Our  research questions are:
+%We define regex understandability two ways. First,  we  present people with regexes exemplifying some of the more common characteristics and ask them comprehension questions along two directions: determine which of a list of strings are matched by the regex, and compose a string that is matched by the regex. Second, assuming that common programming practices are more understandable than uncommon practices, we explore the frequencies of each representation from Figure~\ref{fig:refactoringTree} using thousands of regexes scraped from Python projects. 
+Our  research questions are:
 
 \begin{description}
-\item[RQ1:] Which refactorings have the strongest support based on \emph{understandability} as measured by matching strings and composing strings?
-\item[RQ2:] Which refactorings have the strongest \emph{community support} based on how frequently each representation appears in regexes in open source Python projects?
-\item[RQ3:] Which regex representations are most desirable based on both community support and understandability?
+\item[RQ1:] Which regex representations are most smelly based on \emph{understandability} as measured by identifying matching strings and by composing matching strings?
+\item[RQ2:] Which regex representations have the strongest \emph{community support} based on how frequently each representation appears in regexes in open source Python projects?
+\item[RQ3:] Which regex representations are most desirable (i.e., least smelly) based on both community support and understandability?
 \end{description}
 
 Next, we present the equivalence classes, analysis and results for each  question in turn, followed by a unified discussion in Section~\ref{sec:discussion}. 

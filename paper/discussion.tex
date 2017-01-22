@@ -2,7 +2,9 @@
 \label{sec:discussion}
 Based on our analyses of source code and our empirical study on the understandability of regex representations, we have identified preferred regex representations that may make regexes easier to understand and thus maintain. In this section, we describe the implications of these results.
 
-\subsection{Interpreting Results}
+We identify smells, not all refactorings are possible or advisable. See Equiv. class definitions for example limitations. 
+
+\subsection{ Results}
 In the CCC equivalence class, C1 (e.g., \verb![0-9a]!) is more commonly found in the patterns and projects.  Representations C2 (e.g., \verb![0123456789a]!) and C3 (e.g., \verb![^\x00-/:-`b-\x7F]!) appear in similar percentages of patterns and projects but there is no significant difference in understandability considering two pairs of regexes tested as part of E13 (Table~\ref{table:testedEdgesTable}). However, a small preference is shown for C1 over C2 (E7), leading this to to be the winner of both the community support and understandability analyses.
 %    Regex length is probably important for understandability, though we did not test for this.
 

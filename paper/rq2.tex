@@ -227,7 +227,7 @@ This information is presented in summary in Table~\ref{table:testedEdgesTable}, 
 %36 comparisons
 
 
-Although we had 42 pairwise comparisons,  we had to drop seven comparisons  due design flaws. One is that the regexes evaluated, \verb!\..*! and \verb!\.+'!. are not semantically equivalent (the former is missing an escape and should be \verb!\.\.*!).
+Although we performed 42 pairwise comparisons,  we had to drop seven comparisons  due design flaws. One is that the regexes evaluated, \verb!\..*! and \verb!\.+'!. are not semantically equivalent (the former is missing an escape and should be \verb!\.\.*!).
 The other six were dropped since the patterns performed transformations from multiple equivalence classes. For example, pattern \verb!([\072\073])! is in C2 and T4, and was grouped with pattern \verb!(:|;)! in C5, T1, so it was not clear if any differences in understandability were due to the transformation between C2 and C5, or T4 and T1. However, the third member of the group, \verb!([:;])!, could be compared with both, since it is a member of T1 and C2, so comparing it to \verb!([\072\073])! evaluates the transformation between T1 and T4, and comparing to \verb!(:|;)! evaluates the transformation between C2 and C5. The end result is 35 pairwise comparisons across 14 edges from Figure~\ref{fig:refactoringTree}.
 
 \subsection{Results}

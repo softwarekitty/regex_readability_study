@@ -99,9 +99,13 @@ T3 requires that a single literal character is wrapped in a custom character cla
 T1 requires that no characters are wrapped in brackets or are hex or octal characters, which matches over 91\% of the  patterns analyzed.
 
 \subsubsection{Token Stream }
-The rest of the representations were identified by representing the regex patterns as a sequence of tokens.
-Identifying S2 requires any element to be repeated at least twice in sequence. This element could be a character class, a literal, or a collection of things encapsulated in parentheses.
-Identifying C1 requires that a non-negative character class contains a range.  Identifying C2 requires that there exists a custom character class that does not use ranges or defaults. Identifying C4 requires the presence of a default character class within a custom character class, specifically, \verb!\d!, \verb!\D!, \verb!\w!, \verb!\W!, \verb!\s!, \verb!\S! and \verb!.!.  Identifying C5 requires an OR of length-one sequences (literal characters or any character class).
+%The rest of the representations were identified by representing the regex patterns as a sequence of tokens.
+S2 requires any element to be repeated at least twice in sequence. This element could be a character class, a literal, or a collection of things encapsulated in parentheses; rather than a parser, we used a token stream to identify it.
+C1 requires that a non-negative character class contains a range.  
+C2 requires that there exists a custom character class that does not use ranges or defaults. 
+C4 requires the presence of a default character class within a custom character class.
+%, specifically, \verb!\d!, \verb!\D!, \verb!\w!, \verb!\W!, \verb!\s!, \verb!\S! and \verb!.!.  
+C5 requires an OR of length-one sequences (literal characters or any character class).
 
 
 \subsection{Results}

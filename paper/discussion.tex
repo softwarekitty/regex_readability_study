@@ -4,7 +4,7 @@ Based on our analyses of source code and our empirical study on the understandab
 
 We identify smells, not all refactorings are possible or advisable. See Equiv. class definitions for example limitations. 
 
-\subsection{ Results}
+%\subsection{ Results}
 In the CCC equivalence class, C1 (e.g., \verb![0-9a]!) is more commonly found in the patterns and projects.  Representations C2 (e.g., \verb![0123456789a]!) and C3 (e.g., \verb![^\x00-/:-`b-\x7F]!) appear in similar percentages of patterns and projects but there is no significant difference in understandability considering two pairs of regexes tested as part of E13 (Table~\ref{table:testedEdgesTable}). However, a small preference is shown for C1 over C2 (E7), leading this to to be the winner of both the community support and understandability analyses.
 %    Regex length is probably important for understandability, though we did not test for this.
 
@@ -26,10 +26,11 @@ In the LIT group, T1 (e.g., \verb!\a\$>!) is the typical way to list literals, b
 Regarding T3 (e.g., \verb!\a[$]>!), initially we thought the square brackets would be more understandable than using an escape character,  but we found the opposite. Given a choice between T1 and T3, the escape character was more understandable.
 
 \subsection{Opportunities For Future Work}
-There are several directions for future work related to regex study and refactoring.
-
-\paragraph{Equivalence Class Models}
 \label{sec:futureequivclasses}
+%There are several directions for future work related to regex study and refactoring.
+%
+%\paragraph{Equivalence Class Models}
+
 We looked at five equivalence classes, each with three to five nodes.
 Future work could consider richer models with more or different classes and nodes.
 %For example, we have looked at all ranges as equivalent, all defaults as equivalent, and relied on many such generalizations.  However, the range \verb![a-f]! is likely to be more understandable for most people than a range like \verb![:-`]!.
@@ -62,29 +63,29 @@ By creating a more granular model of equivalence classes  and carefully evaluati
 %
 %In another study, we did a survey where software professionals indicated that understandability of regexes they find in source code is a major pain point.  In this study, our participants indicated that they read about twice as many regexes as they compose.  What is the impact on maintainers, developers and contributors to open-source projects of not being able to understand a regex that they find in the code they are working with?  Presumably this is a frustrating experience - how much does a confusing regex slow down a software professional?  What bugs or other negative factors can be attributed to or associated with regexes that are difficult to understand?  How often does this happen and in what settings?  Future work could tailor an in-depth exploration of the overall costs of confusing regexes and the potential benefits of refactoring or other treatments for confusing regexes.
 
-\vspace{-1pt}
-\paragraph{Regex Migration Libraries}
-We have identified opportunities
- to improve the understandability of regexes in existing code bases by looking for some of the less understandable regex representations, which can be thought of as antipatterns, and refactoring to the more common or understandable representations.
- Building migration libraries is a promising direction of future work to ease the manual burden of this process, similar in spirit to prior work on class library migration~\cite{Balaban:2005:RSC:1103845.1094832}.
-
-%\paragraph{Regex Refactoring Applications}
-%Maintainers of code that is intentionally obfuscated for security purposes may want to develop regexes that they understand and then automatically transform them into the least understandable regex possible.
+%\vspace{-1pt}
+%\paragraph{Regex Migration Libraries}
+%We have identified opportunities
+% to improve the understandability of regexes in existing code bases by looking for some of the less understandable regex representations, which can be thought of as antipatterns, and refactoring to the more common or understandable representations.
+% Building migration libraries is a promising direction of future work to ease the manual burden of this process, similar in spirit to prior work on class library migration~\cite{Balaban:2005:RSC:1103845.1094832}.
 %
-%One fundamental concept that many users of regex struggle to learn is when to use regexes for simple parsing, and when to write a full-fledged parser (for example, when parsing HTML).  Regexes that are trying to parse HTML, XML or similar languages could be refactored not into a better regex, but into some code with an equivalent intention that does parsing much better.
-
-\vspace{-1pt}
-\paragraph{Regex Programming Standards}
-Many organizations enforce coding standards in their repositories to ease understandability.
-Presently, we are not aware of coding standards for regular expressions, but this work suggests that enforcing standard representations for various regex constructs could ease comprehension.
-
-\vspace{-1pt}
-\paragraph{Regex Refactoring for Performance}
-The representation of regexes may have a strong impact on the runtime performance of a chosen regex engine. Prior work has sought to expedite the processing of regexes over large bodies of text~\cite{Baeza-Yates:1996:FTS:235809.235810}.
-Refactoring regexes for performance would complement those efforts.
-%Further study is needed to determine which representations are most efficient, leading to a whole new area of study on regex refactoring for performance, a topic already explored for
-%Depending on the efficiency of an organization's chosen regex engine, an organization may want to enforce standards for efficiency.
-%, or for compatibility with a regex analysis tool like Z3, HAMPI, BRICS or REX.
+%%\paragraph{Regex Refactoring Applications}
+%%Maintainers of code that is intentionally obfuscated for security purposes may want to develop regexes that they understand and then automatically transform them into the least understandable regex possible.
+%%
+%%One fundamental concept that many users of regex struggle to learn is when to use regexes for simple parsing, and when to write a full-fledged parser (for example, when parsing HTML).  Regexes that are trying to parse HTML, XML or similar languages could be refactored not into a better regex, but into some code with an equivalent intention that does parsing much better.
+%
+%%\vspace{-1pt}
+%%\paragraph{Regex Programming Standards}
+%%Many organizations enforce coding standards in their repositories to ease understandability.
+%%Presently, we are not aware of coding standards for regular expressions, but this work suggests that enforcing standard representations for various regex constructs could ease comprehension.
+%
+%\vspace{-1pt}
+%\paragraph{Regex Refactoring for Performance}
+%The representation of regexes may have a strong impact on the runtime performance of a chosen regex engine. Prior work has sought to expedite the processing of regexes over large bodies of text~\cite{Baeza-Yates:1996:FTS:235809.235810}.
+%Refactoring regexes for performance would complement those efforts.
+%%Further study is needed to determine which representations are most efficient, leading to a whole new area of study on regex refactoring for performance, a topic already explored for
+%%Depending on the efficiency of an organization's chosen regex engine, an organization may want to enforce standards for efficiency.
+%%, or for compatibility with a regex analysis tool like Z3, HAMPI, BRICS or REX.
 
 \subsection{Threats to Validity}
 

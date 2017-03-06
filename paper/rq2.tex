@@ -2,7 +2,7 @@
 
 \section{Understandability Study (RQ1)}
 \label{sec:understandability}
-The overall idea of this study  is to present  programmers with one of several representations of semantically equivalent regexes and ask comprehension questions. By comparing the understandability of semantically equivalent regexes that match the same language but have different syntactic representations, we aim to identify understandability code smells.
+This study presents  programmers with regexes and asks comprehension questions. By comparing the understandability of semantically equivalent regexes that match the same language but have different syntactic representations, we aim to identify understandability code smells.
 This study was  implemented on Amazon's Mechanical Turk with 180 participants. A total of 35 pairs of regex were evaluated. Each regex pattern was evaluated by 30 participants.
 %The patterns used were designed to belong to various representations in Figure~\ref{fig:refactoringTree}.
 
@@ -24,7 +24,8 @@ This study was  implemented on Amazon's Mechanical Turk with 180 participants. A
  For example, consider regex pattern \verb!`RR*'! and five strings shown in Table~\ref{matchingmetric}, and the responses from four participants in the \emph{P1}, \emph{P2}, \emph{P3} and \emph{P4} columns.
  The oracle has the first three strings matching since they each contain at least one \verb!R! character. \emph{P1} answers correctly for the first three strings but incorrectly on the fourth string, so the matching score is $4/5 = 0.80$. \emph{P2} incorrectly thinks that the second string is not a match, so the score is also $4/5 = 0.80$.  \emph{P3} marks `unsure' for the third string and so the total number of attempted matching questions is 4. \emph{P3} is incorrect about the second and fourth string, so they score $2/4 = 0.50$.  For \emph{P4}, we only have data for the first and second strings, since the other three are blank.  \emph{P4} marks `unsure' for the second string so only one matching question has been attempted;  the matching score is $1/1 = 1.00$.
 
-Blanks were incorporated into the metric because questions were occasionally left blank in the study. Unsure responses were provided as an option so not to bias the  results through blind guessing. These situations did not occur very frequently. Only 1.1\% of the responses were left blank and only 3.8\% of the responses were marked as unsure.  %We refer to a response with all blank or unsure responses as an `NA'. 
+Blanks were incorporated into the metric because questions were occasionally left blank in the study. Unsure responses were provided as an option so not to bias the  results through blind guessing. These situations did not occur very frequently. 
+%Only 1.1\% of the responses were left blank and only 3.8\% of the responses were marked as unsure.  %We refer to a response with all blank or unsure responses as an `NA'. 
 Out of 1800 questions (180 participants * 10 questions each), only 1.8\%(32) were impacted by a blank or unsure response (never more than four out of 30 per pattern).
 
 
@@ -201,7 +202,8 @@ There was one other pairwise comparisons performed between the L2 and L3 group, 
 Considering both regex pairs, the overall matching average for the regexes belonging to L2 was 0.86 and 0.91 for L3. 
 The overall composition score for L2 was 0.97 and 1.00 for L3. Thus, the community found L3 to be more understandable than L2, from the perspective of both understandability metrics, suggesting that L2 is generally smelly, though the results are not significant. 
 
-This information is presented in summary in Table~\ref{table:testedEdgesTable}, with this specific example appearing in the E5 row. The \emph{Index} column enumerates the edges  evaluated in this experiment, \emph{Nodes} lists the two representations, \emph{Pairs} shows how many comparisons were performed, \emph{Example Preferred Regex} shows a regex from the preferred node (bolded in \emph{Pairs} column), \emph{Match1} gives the overall matching score for the first representation listed, \emph{Match2} gives the overall matching score for the second representation listed, and $H_0: \mu_{match1} = \mu_{match2}$ uses the Mann-Whitney test of means to compare the matching scores, and presents the p-values. The last three columns list the average composition scores for the representations and the p-value, also using the Mann-Whitney test of means.
+This information is presented in summary in Table~\ref{table:testedEdgesTable}, with this specific example appearing in the E5 row. 
+\emph{Index}  enumerates the edges  evaluated in this experiment, \emph{Nodes} lists the representations, \emph{Pairs} shows the number of comparisons, \emph{Example Preferred Regex} shows a regex from the preferred node (bolded in \emph{Pairs} column), \emph{Match1} and \emph{Match2} give the matching scores for the first and second representations, respectively, and $H_0: \mu_{match1} = \mu_{match2}$ uses the Mann-Whitney test of means to compare the matching scores, and presents the p-values. The last three columns list the average composition scores for the representations and the p-value, also using the Mann-Whitney test of means.
 
 %60 strings
 %42 comparisons

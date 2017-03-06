@@ -82,23 +82,21 @@ Note that a regex can belong to multiple representations, and a regex can belong
 
 \subsection{Analysis}
 \label{communityanalysis}
-To determine how many of the representations match patterns in the corpus, we performed an analysis using the PCRE parser and by representing the regexes as token streams, depending on the characteristics of the representation. Our analysis code is available on GitHub\footnote{\url{http://tinyurl.com/jmeeytk} (this is a git repo - not anonymized)}. Next, we describe the process in detail:
+To determine how many of the representations match patterns in the corpus, we used the PCRE parser and and treated the regexes as token streams, depending on the characteristics of the representation. Our analysis code is available on GitHub\footnote{\url{http://tinyurl.com/jmeeytk} (this is a git repo - not anonymized)}. Next, we describe the process in detail:
 
 \subsubsection{Presence of a Feature}
-For the representations that only require a particular feature to be present, such as the question-mark in D2, the features identified by the PCRE parser were used to decide membership of patterns in nodes.
-These feature-requiring nodes are as follows: D1 requires double-bounded repetition with different bounds, D2 requires the question-mark repetition, S1 requires single-bounded repetition, S3 requires double-bounded repetition with the same bounds,  L1 requires a lower-bound repetition, L2 requires the kleene star (\verb!*!) repetition, L3 requires the add (\verb!+!) repetition, and C3 requires a negated custom character class.
+For the representations that require a particular feature to be present, we used the PCRE parser to decide membership. This was used for D1 (double-bounded repetition with different bounds), D2 (question-mark), S1 (single-bounded repetition), S3 (double-bounded repetition with the same bounds),  L1 (lower-bound repetition), L2 (kleene star), L3  (add repetition), and C3 (negated custom character class).
 
 \subsubsection{Features  and Pattern}
-For some representations, the presence of a feature is not enough to determine membership.
+The presence of a feature is not always enough to determine membership.
 %However,  the presence of a feature and properties of the pattern can determine membership.
-Identifying D3 requires an OR containing at least two entries with a sequence present in one entry repeated N times, and then the same sequence present in another entry repeated N+1 times.  This is a hard pattern to detect directly, but we identified candidates by looking for a sequence of N repeating groups with an OR-bar (ie. \verb!|!) next to them on one side (either side).  This produced a list of 113 candidates which we narrowed down manually to 10 actual members.
+Identifying D3 requires an OR containing at least two entries with a sequence present in one entry repeated N times, and then the same sequence present in another entry repeated N+1 times.  We identified candidates by looking for a sequence of N repeating groups with an OR-bar (ie. \verb!|!) next to them on one side (either side).  This produced a list of 113 candidates which we narrowed down manually to 10 actual members.
 
 
-Identifying T2 requires a literal feature that matches the regex \verb!(\\x[a-f0-9A-F]{2})! which reliably identifies hex codes within a pattern.
-Similarly T4 requires a literal feature and must match the regex \verb!((\\0\d*)|(\\\d{3}))! which is specific to Python-style octal, requiring either exactly three digits after a slash, or a zero and some other digits after a slash.  Only one false positive was identified which was actually the lower end of a hex range using the literal \verb!\0!.
-
-Identifying T3 requires that a single literal character is wrapped in a custom character class (a member of T3 is always a member of C2).
- T1 requires that no characters are wrapped in brackets or are hex or octal characters, which actually matches over 91\% of the total patterns analyzed.
+T2 requires a literal that matches the regex \verb!(\\x[a-f0-9A-F]{2})! which reliably identifies hex codes within a pattern.
+T4 requires a literal and must match the regex \verb!((\\0\d*)|(\\\d{3}))! which is specific to Python-style octal, requiring either exactly three digits after a slash, or a zero and some other digits after a slash.  One false positive was identified, which was actually the lower end of a hex range using the literal \verb!\0!.
+T3 requires that a single literal character is wrapped in a custom character class (a member of T3 is always a member of C2).
+T1 requires that no characters are wrapped in brackets or are hex or octal characters, which matches over 91\% of the  patterns analyzed.
 
 \subsubsection{Token Stream }
 The rest of the representations were identified by representing the regex patterns as a sequence of tokens.
@@ -107,15 +105,17 @@ Identifying C1 requires that a non-negative character class contains a range.  I
 
 
 \subsection{Results}
-Table~\ref{table:nodeCount} presents the frequencies with which each representation appears in a regex pattern and in a project scraped from GitHub. The \emph{node} column references the representations in Figure~\ref{fig:refactoringTree} and the \emph{description} column briefly describes the representation, followed by an \emph{example} from the corpus. The \emph{nPatterns} column counts the patterns that belong to the representation, followed by the percent of patterns out of 13,597.
+Table~\ref{table:nodeCount} presents the frequencies with which each representation appears in a regex pattern and in a project scraped from GitHub.  \emph{Node}  references  Figure~\ref{fig:refactoringTree}, \emph{description}  briefly describes the representation, \emph{example} provides a regex from the corpus.  \emph{nPatterns}  counts the patterns that belong to the representation, followed by the percent of patterns out of 13,597.
 The \emph{nProjects} column counts the projects that contain a regex belonging to the representation,
 followed by the percentage of projects out of 1,544.
-Recall that the patterns are all unique and could appear in multiple projects, hence the project support is used to show how pervasive the representation in across the whole community.
-For example, 2,479 of the patterns belong to the C1 representation, representing 18.2\% of the patterns. These appear in 810 projects, representing 52.5\%.
- Representation D1 appears in 346 (2.5\%) of the patterns but only 234 (15.2\%) of the projects. In contrast, representation T3 appears in 39 \emph{fewer} patterns but 34 \emph{more} projects, indicating that D1 is more concentrated in a few projects and T3 is more widespread across projects.
+Recall the patterns are all unique and could appear in multiple projects, hence the project support is used to show  pervasiveness across the whole corpus.
+For example, D1 appears in 346 (2.5\%) of the patterns but only 234 (15.2\%) of the projects.
+  In contrast, representation T3 appears in 39 \emph{fewer} patterns but 34 \emph{more} projects, indicating that D1 is more concentrated in a few projects and T3 is more widespread across projects.
 
-Using the pattern frequency as a guide, we can create refactoring recommendations based on community frequency. For example, since C1 is more prevalent than C2 in both patterns and projects, we could say that C2 is smelly since it could better conform to the community standard if expressed as C1. Thus, we might recommend a $\overrightarrow{C2C1}$ refactoring. Based on patterns alone, the winning representations per equivalence class are C1, D2, T1, L2, and S2. With one exception, these are the same for recommendations based on projects. The difference is that L3 appears in more projects than L2, so it is not clear which desirable based on community standards metrics.
-However, we note that our criteria for membership in a representation may overestimate the opportunities for refactoring. For example, \verb![a-f]! in C1 cannot be refactored to C4 since there does not exist a default character class for that range of characters. A finer-grained analysis is needed to identify actual refactoring opportunities. Our analysis simply suggests a direction for a refactoring (in this case, from C4 to C1). 
+The pattern frequency is our guide for setting the community standards. 
+For example, since C1 is more prevalent than C2 in both patterns and projects, we could say that C2 is smelly since it could better conform to the community standard if expressed as C1. 
+Based on patterns alone, the winning representations per equivalence class are C1, D2, T1, L2, and S2. With one exception, these are the same for recommendations based on projects. The difference is that L3 appears in more projects than L2, so it is not clear which desirable based on community standards metrics.
+However, we note that our criteria for membership in a representation may overestimate the opportunities for refactoring to address the smells. For example, \verb![a-f]! in C1 cannot be refactored to C4 since there does not exist a default character class for that range of characters. A finer-grained analysis is needed to identify actual refactoring opportunities. Our analysis simply suggests a direction for a refactoring (in this case, from C4 to C1). 
 %Section~\ref{sec:rq3} explores these results more deeply.
 
 %Table~\ref{summaryResults} presents these recommendations for each pair of representations within each equivalence class. The \emph{Comm} column is populated based on the findings of \emph{RQ1}. The findings for \emph{RQ2} and \emph{RQ3} are in the \emph{Match} and \emph{Compose} columns, respectively.

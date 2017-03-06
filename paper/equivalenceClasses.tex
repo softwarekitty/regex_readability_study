@@ -1,13 +1,5 @@
 
 
-\begin{figure*}[tb]
-\centering
-\includegraphics[width=0.8\textwidth]{illustrations/refactoringTree.eps}
-\vspace{-6pt}
-\caption{Equivalence classes with various representations. DBB = Double-Bounded, SNG = Single Bounded, LWB = Lower Bounded, CCC = Custom Character Class and LIT = Literal. We use concrete regexes in the representations for illustration. However, the A's in the LWB group (or B's in DBB group, S's in SNG group, and so forth) abstractly represent any pattern that could be operated on by a repetition modifier (e.g., literal characters, character classes, or groups). The same is true for the literals used in all the representations. }
-\vspace{-6pt}
-\label{fig:refactoringTree}
-\end{figure*}
 
 
 
@@ -16,13 +8,13 @@
 \section{Equivalence Classes}
 \label{sec:refactoring}
 %After studying over 13,000 distinct regex strings from Python projects, 
-To facilitate smell identification and explore understandability, we have defined an initial set of equivalence classes for regexes. 
+To explore understandability, we defined an initial set of equivalence classes for regexes. 
 Using the publicly available behavioral clusters~\cite{chapman2016}, we manually identified several representations that appeared in many of the larger clusters. 
-While not a complete set of equivalence classes, this is the first work to explore regex representations and understandability, and these equivalence classes provide an initial testbed that allows us to explore regex comprehension. (Section~\ref{sec:futureequivclasses} identifies other equivalence classes left to explore in future work.)
+While not a complete set of equivalence classes, this is the first work to explore regex  understandability, and these equivalence classes provide an initial testbed for exploration. (Section~\ref{sec:futureequivclasses} identifies other equivalence classes left to explore in future work.)
 
 %For example,  \verb!AAA*! and \verb!AA+! are semantically identical, except one uses the star operator (indicating zero or more repetitions) and the other uses the plus operator (indicating one or more repetitions).
 %Both match strings with two or more \verb!A!'s.
-Figure~\ref{fig:refactoringTree} displays the five equivalence classes in grey boxes and various semantically equivalent \emph{representations} of a regex are shown in white boxes. For example, LWB is an equivalence class with representations that all have a lower bound on repetitions. Regexes \verb!AAA*! and \verb!AA+!  are both members of this class mapping to representations L2 and L3, respectively, along with the L1 representation, \verb!A{2,}!.
+Figure~\ref{fig:refactoringTree} displays the five equivalence classes in grey boxes and various semantically equivalent \emph{representations} of a regex are shown in white boxes. For example, LWB is an equivalence class with representations that all have a lower bound on repetitions. Regexes \verb!AAA*! and \verb!AA+!  map to representations L2 and L3, respectively, along with the L1 representation, \verb!A{2,}!.
 %The undirected edges between the representations define possible refactorings.
 %Identifying the best direction for each arrow in the possible refactorings is discussed in Section~\ref{sec:rq3}.
 %We use concrete regexes in the representations to more clearly illustrate examples of the representations. However, the \verb!A!'s in the LWB group abstractly represent any pattern that could be operated on by a repetition modifier (e.g., literal characters, character classes, or groups). The same is true for the literals used in all the representations. 
@@ -31,10 +23,9 @@ Next, we describe each group and the representations.
 \subsection{Custom Character Class Group}
 The Custom Character Class (CCC) group has regex representations that use the custom character class language feature or can be represented by such a feature.
 %The character class regex language feature is a fundamental feature found in all language flavors since GREP (check this?).
- A custom character class enables a programmer to specify a set of alternative characters, any of which can match.  For example, the regex \verb!`c[ao]t'! will match both the string ``cat" and the string ``cot" because, between the \verb!c! and \verb!t!, there is a custom character class, \verb![ao]!, that specifies either \verb!a! or \verb!o! (but not both) must be selected.  We use the term \emph{custom} to differentiate these classes  from the default character classes, : \verb!\d!, \verb!\D!, \verb!\w!, \verb!\W!, \verb!\s!, \verb!\S! and \verb!.!,  provided by most regex libraries, though the default classes can be encapsulated in a custom character class, as is the case with the C4 representation.
+ A custom character class enables a programmer to specify a set of alternative characters, any of which can match.  For example, the regex \verb!`c[ao]t'! will match both the string ``cat" and the string ``cot" because, between the \verb!c! and \verb!t!, there is a custom character class, \verb![ao]!, that specifies either \verb!a! or \verb!o! (but not both) must be selected.  We use the term \emph{custom} to differentiate these classes  from the default character classes, : \verb!\d!, \verb!\D!, \verb!\w!, \verb!\W!, \verb!\s!, \verb!\S! and \verb!.!,  provided by most regex libraries, though the default classes can be encapsulated in a custom character class. %, as is the case with the C4 representation.
  % For the purposes of our analysis, a negated custom character class (like \verb![^abc]!) is handled separately.
 %Next, we provide descriptions of each representation in this equivalence class:
-
 \begin{description}  \itemsep -1pt
 \item[C1:] Any pattern that contains a (non-negative) custom character class with  a range feature like \verb![a-f]! as shorthand for all of the characters between `a' and `f' (inclusive) belongs to the C1 node.
 
@@ -50,7 +41,7 @@ For example, the pattern \verb![^ao]! matches every character \emph{except} \ver
 
 \item[C4:]Any pattern using a default character class such as \verb!\d! or \verb!\W! within a (non-negative) character class. % belongs to the C4 node.  
 
-\item[C5:]  While not expressed using a character class, these representations can be transformed into custom character classes by removing the ORs and adding square brackets (e.g., \verb!(\d|a)! in C5 is equivalent to \verb![\da]! in C4). All custom character classes expressed as an OR of length-one sequences, including defaults or other custom classes, are included in C5. Note that because an OR cannot be directly negated, it there is no edge between C3 and C5 in Figure~\ref{fig:refactoringTree}. 
+\item[C5:]  These representations can be transformed into custom character classes by removing the ORs and adding square brackets (e.g., \verb!(\d|a)! in C5 is equivalent to \verb![\da]! in C4). All custom character classes expressed as an OR of length-one sequences, including defaults or other custom classes, are included in C5\footnote{An OR cannot be directly negated, it there is no edge between C3 and C5}. 
 \end{description}
 
 Note that a pattern can belong to multiple representations. For example,  \verb![a-f\d]! belongs to both C1 and C4.  
@@ -78,14 +69,16 @@ The Double-Bounded (DBB) group contains all regex patterns that use some repetit
 %\todoNow{make sure to differentiate this clearly from C5}
 \end{description}
 
-A pattern can belong to multiple nodes in the DBB group, for example, \verb!(a|aa)X?Y{2,4}! belongs to all three nodes: \verb!Y{2,4}! maps it to D1, \verb!X?!  maps it to D2, and \verb!(a|aa)!  maps it to D3.
+Patterns can belong to multiple representations (e.g., \verb!(a|aa)X?Y{2,4}! belongs to all three nodes: \verb!Y{2,4}! maps to D1, \verb!X?!  maps  to D2, and \verb!(a|aa)!  maps  to D3).
 
 % The same functional pattern can be represented as \verb!lol(ol)?(ol)?!, because the questionable (QST) modifier is used.  Note how in general, this procedure is simply pulling out N QST groups from a curly brace style repetition with a zero lower bound and an upper bound of N.  One question mark is equivalent to the curly brace style with a lower bound of 0, and upper bound of 1, so \verb!X?! is equivalent to \verb!X{0,1}!, so we can express \verb!X{0,2}! as \verb!X?X?!.  Any regex using the QST modifier belongs to the D2 node.
 
 
 
 \subsection{Literal Group}
-In the Literal (LIT) group, all patterns that are not purely default character classes must use  literal tokens to specify  characters to match.  In  most  languages that support regex libraries, the programmer is able to specify literal tokens in a variety of ways.  Here, we use the ASCII charset in which all characters can be expressed using hex and octal codes such as \verb!\xF1! and \verb!\0108!, respectively.  
+In the Literal (LIT) group, all patterns that are not purely default character classes must use  literal tokens. 
+% In  most  languages that support regex libraries, the programmer can specify literal tokens various ways.  
+We use the ASCII charset in which all characters can be expressed using hex and octal codes such as \verb!\xF1! and \verb!\0108!, respectively.  
 %This group defines transformations among various representations of literals.
 
 %Although not all characters can be expressed directly using literal characters typed on the keyboard, the overwhelming majority of patterns do not belong to nodes T2, T3 or T4 because they do not use any of those special features, and so these nodes
@@ -100,8 +93,8 @@ Literal character can be wrapped in brackets to form a custom character classes 
 \item[T4:] Any pattern using an octal token, such as \verb!\007!.
 \end{description}
 
-Patterns often fall in multiple of these representations, for example, \verb!abc\007! includes literals \verb!a!, \verb!b!, and \verb!c!, and also octal \verb!\007!, thus belonging to T1 and T4. We also note that 
-not all transformations are possible between representations in this group, for example, if a hex representation is used to represent a character that does not appear on the keyboard, a transformation to T1 or T3 will not be possible. 
+Patterns often fall in multiple of these representations, for example, \verb!abc\007! includes literals \verb!a!, \verb!b!, and \verb!c!, and also octal \verb!\007!, thus belonging to T1 and T4. 
+Not all transformations are possible in this group, for example, if a hex representation is used for a character not on the keyboard, a transformation to T1 or T3 is infeasible.
 
 \subsection{Lower-Bounded Group}
 The Lower-Bounded (LWB) group contains patterns that specify only a lower boundary on  repetitions. This can be expressed using curly braces with a comma after the lower bound but no upper bound, for example \verb!A{2,}! which will match ``AA", ``AAA", ``AAAA", and any number of A's greater or equal to 2.  In Figure~\ref{fig:refactoringTree}, we chose the lower bound repetition threshold of  2 for illustration; in practice this could be any number, including zero.

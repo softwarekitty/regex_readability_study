@@ -53,7 +53,7 @@ Out of 1800 questions (180 participants * 10 questions each), only 1.8\%(32) wer
 5 & ``98"       & \xmark        & \xmark        & \xmark        & \xmark        & -\\
 \hline
   & Score       & 1.00          & 0.80          & 0.80          & 0.50          & 1.00\\ \hline
-\multicolumn{7}{l}{}\\ 
+%\multicolumn{7}{l}{}\\ 
 \multicolumn{7}{l}{\checkmark = match, \xmark = not a match, ? = unsure, -- = left blank}\\
 \end{tabular}
 %\end{small}
@@ -195,16 +195,24 @@ at least an Associates degree (72\%), were at least somewhat familiar with regex
 For each of the 180 HITs, we computed a matching and composition score for each of the 10 regexes, using the metrics described in Section~\ref{sec:understadningmetric}. This allowed us to compute and then average 26-30 values for each metric  for each of the 60 regexes (fewer than 30 values were used if all the responses in a matching question were a combination of blanks and unsure). %Next, we computed average scores for matching and composition per regex.
 %\todoLast{Mentioning NAs here?}
 
+
 %Each regex was a member of one of 26 groupings of equivalent regexes. 
 %These groupings allow pairwise comparisons of the metrics values to determine which representation of the regex was most understandable and the direction of a refactoring for understandability. 
-Among all the semantic groups, we performed 42 pairwise comparisons of the matching and composition scores  (i.e., one comparison for each group of size two and three comparisons within each group of size three).
-For example, one group had regexes, \verb!RR*! and \verb!R+!, which  represent a transformation between L2 and L3. The former had an average matching of 86\% and the latter had an average matching of 92\%. The average composition score for the former was 97\% and 100\% for the latter. Thus, the community found \verb!R+! from L3 more understandable. 
-There was one other pairwise comparisons performed between the L2 and L3 group, using regexes pair \verb!zaa*! and \verb!za+'!. %, and regexes pair \verb!\..*! and \verb!\.+'!. 
-Considering both regex pairs, the overall matching average for the regexes belonging to L2 was 0.86 and 0.91 for L3. 
-The overall composition score for L2 was 0.97 and 1.00 for L3. Thus, the community found L3 to be more understandable than L2, from the perspective of both understandability metrics, suggesting that L2 is generally smelly, though the results are not significant. 
+Of the original 42 pairs, we report scores for only 35 pairs. Due to design flaws, seven pairs were dropped. In one, the regexes evaluated, \verb!\..*! and \verb!\.+!. are not semantically equivalent (the former is missing an escape and should be \verb!\.\.*!). In the other six, the patterns performed transformations from multiple equivalence classes. For example,  \verb!([\072\073])! is in C2 and T4 and  \verb!(:|;)! in C5, T1;  it was not clear if any differences were due to the CCC or LIT groups, or both. However, \verb!([:;])!, could be compared with each, since it is a member of T1 and C2, so comparing it to \verb!([\072\073])! evaluates T1 and T4, and comparing to \verb!(:|;)! evaluates  C2 and C5. In the end, we covered  14 edges from Figure~\ref{fig:refactoringTree}.
 
-This information is presented in summary in Table~\ref{table:testedEdgesTable}, with this specific example appearing in the E5 row. 
-\emph{Index}  enumerates the edges  evaluated in this experiment, \emph{Nodes} lists the representations, \emph{Pairs} shows the number of comparisons, \emph{Example Preferred Regex} shows a regex from the preferred node (bolded in \emph{Pairs} column), \emph{Match1} and \emph{Match2} give the matching scores for the first and second representations, respectively, and $H_0: \mu_{match1} = \mu_{match2}$ uses the Mann-Whitney test of means to compare the matching scores, and presents the p-values. The last three columns list the average composition scores for the representations and the p-value, also using the Mann-Whitney test of means.
+\subsection{Results}
+Table~\ref{table:testedEdgesTable} presents the results. 
+\emph{Index}  enumerates the edges  evaluated in this experiment (per Figure~\ref{fig:refactoringTree}), \emph{Nodes} lists the representations, \emph{Pairs} shows the number of comparisons, \emph{Example Preferred Regex} shows a regex from the preferred node (bolded in \emph{Pairs} column), \emph{Match1} and \emph{Match2} give the matching scores for the first and second representations, respectively, and $H_0: \mu_{match1} = \mu_{match2}$ uses the Mann-Whitney test of means to compare the matching scores, and presents the p-values. The last three columns list the average composition scores for the representations and the composition p-value. 
+
+For example, consider row E5 in Table~\ref{table:testedEdgesTable}. 
+One pair of regexes was \verb!RR*! and \verb!R+! in L2 and L3, respectively, with average matching scores of 86\%  and 92\% and average composition scores of 97\%  and 100\%, respectively. 
+Thus, the community found \verb!R+! from L3 more understandable. 
+This is not the only regex pair in E5, however, The other is \verb!zaa*! and \verb!za+!. %, and regexes pair \verb!\..*! and \verb!\.+'!. 
+In aggregate, considering both regex pairs, the overall matching average for the regexes belonging to L2 was 0.86 and 0.91 for L3. 
+The overall composition score for L2 was 0.97 and 1.00 for L3. 
+The community found L3 to be more understandable than L2, from the perspective of both metrics, suggesting that L2 is generally smelly, though the differences are not significant. 
+
+
 
 %60 strings
 %42 comparisons
@@ -230,13 +238,12 @@ This information is presented in summary in Table~\ref{table:testedEdgesTable}, 
 %36 comparisons
 
 
-Although we performed 42 pairwise comparisons,  we had to drop seven comparisons  due design flaws. One is that the regexes evaluated, \verb!\..*! and \verb!\.+'!. are not semantically equivalent (the former is missing an escape and should be \verb!\.\.*!).
-The other six were dropped since the patterns performed transformations from multiple equivalence classes. For example, pattern \verb!([\072\073])! is in C2 and T4, and was grouped with pattern \verb!(:|;)! in C5, T1, so it was not clear if any differences in understandability were due to the transformation between C2 and C5, or T4 and T1. However, the third member of the group, \verb!([:;])!, could be compared with both, since it is a member of T1 and C2, so comparing it to \verb!([\072\073])! evaluates the transformation between T1 and T4, and comparing to \verb!(:|;)! evaluates the transformation between C2 and C5. The end result is 35 pairwise comparisons across 14 edges from Figure~\ref{fig:refactoringTree}.
+%Although we performed 42 pairwise comparisons,  
 
-\subsection{Results}
-Table~\ref{table:testedEdgesTable} presents the results of the understandability analysis. A horizontal line separates the first three edges from the bottom 11. In E1 through E4, there is a statistically significant difference between the representations for at least one of the metrics considering $\alpha = 0.10$.  These represent the strongest evidence for code smells, suggesting that T4, D2, and C2 are less understandable. 
+%\subsection{Results}
+ In E1 through E4, there is a statistically significant difference between the representations for at least one of the metrics with $\alpha = 0.10$.  These represent the strongest evidence for code smells, suggesting that T4, D2, and C2 are less understandable. 
 
-We note again that participants were able to select \emph{unsure} when they were not sure if a string would be matched by a pattern (Figure~\ref{fig:exampleQuestion}). From a comprehension perspective, this indicates some level of confusion and is worth exploring.
+
 % and we can use that to further corroborate the understandability analysis.
 
 %\begin{table*}
@@ -249,13 +256,15 @@ We note again that participants were able to select \emph{unsure} when they were
 %Unsure Responses Per Pattern & 0.7 & 1 & 1 & 1 & 1.3 & 1.7 & 1.7 & 1.9 & 2 & 2 & 2 & 2.5 & 2.7 & 2.7 & 5.5 & 8.5\\
 %\end{tabular}
 %\end{table*}
-For each pattern, we counted the number of responses containing at least one unsure, representing confusion.
-We then grouped the patterns into their representation nodes and computed an average of unsures per pattern.
-A higher number may indicate difficulty in comprehending a pattern from that node.
-Overall, the highest number of unsure responses came from T4 and T2, which present octal and hex representations of characters. The least number of unsure responses were in L3 and D3.
+Recall that participants were able to select \emph{unsure} for whether a string is matched  by a pattern. 
+From a comprehension perspective, this indicates some level of confusion. 
+For each pattern, we counted the number of responses containing at least one unsure.
+%We then grouped the patterns into their representation nodes and computed an average of unsures per pattern.
+%A higher number may indicate difficulty in comprehending a pattern from that node.
+Overall, the highest number of unsure responses came from T4 and T2, which have octal and hex representations of characters. The least number of unsure responses were in L3 and D3.
 %, which are both shown to be understandable by looking at E2 and E3 in Table~\ref{table:testedEdgesTable}.
 %These nodes and their average number of unsure responses are organized by quartile in Table~\ref{table:unsureResults}.
-These results mirror the understandability analysis, which indicates that L3 and D3 are preferred. 
+These results mirror the understandability analysis.%, echoing that L3 and D3 are less smelly. 
 % for the LIT group (i.e., $\overrightarrow{T4 T1}$), the DBB group (i.e.,  $\overrightarrow{D2 D3}$), and the LWB group (i.e., $\overrightarrow{L2 L3}$) because the more understandable node has the least unsures of its group.
 % The findings for D3 and D2 are contradictory, however, as  and further study is needed.
 %  and the number of unsures may be too small to indicate anything, except for T2 and T4.  The one pattern from T4 that had the most unsures of any pattern (i.e., 10 out of 30) was \verb!`xyz[\0133-\0140]'!, so this may have been the least understandable pattern that we tested.

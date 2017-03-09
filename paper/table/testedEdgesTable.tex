@@ -24,7 +24,11 @@
 %\end{table*}
 
 
-\begin{table*}\begin{footnotesize}\begin{center}\caption{Matching and composition scores for edges from Figure~\ref{fig:refactoringTree} evaluated by 180 human study participants. Preferred nodes are bolded, and examples of regexes from the study that reside in the preferred nodes are provided. The number of pairs indicates how many semantic pairs for the edge were evaluated. The horizontal line indicates which comparisons are statistically different with $\alpha = 0.10$. The table is sorted by lowest of either p-value.}\label{table:testedEdgesTable}\begin{tabular}
+\begin{table*}\begin{footnotesize}\begin{center}\caption{Matching and composition scores for edges from Figure~\ref{fig:refactoringTree} evaluated by 180 human study participants. \label{table:testedEdgesTable}}
+%Preferred nodes are bolded, and examples of regexes from the study that reside in the preferred nodes are provided. 
+%The number of pairs indicates how many semantic pairs for the edge were evaluated. The horizontal line indicates which comparisons are statistically different with $\alpha = 0.10$. 
+%The table is sorted by lowest of either p-value.}
+\begin{tabular}
 {llclcccccc}
 \textbf{Index} & \textbf{Nodes} & \textbf{Pairs} & \textbf{Example Preferred Regex} & \textbf{Match1} & \textbf{Match2} & \textbf{$H_0^{match} $} & \textbf{Compose1} & \textbf{Compose2} &  \textbf{$H_0^{comp}$} \\
 \toprule[0.16em]
@@ -43,4 +47,7 @@ E11 & D1 -- \textbf{D3} & 2 & \verb!`(deedo|deedodo)'!&84\% & 87\% & 0.349 & 93\
 E12 & \textbf{C1} -- C4 & 6 & \verb!`&([A-Za-z0-9_]+);'! &87\% & 84\% & 0.352 & 86\% & 83\% & 0.465\\
 E13 & C3 -- \textbf{C4} & 2 & \verb!`[\D]'! &61\% & 67\% & 0.593 & 75\% & 82\% & 0.379\\
 E14 & S1 -- \textbf{S2} & 3 & \verb!`%([0-9a-fA-F][0-9a-fA-F])'! &85\% & 86\% & 0.776 & 88\% & 90\% & 0.638\\
-\bottomrule[0.13em]\end{tabular}\end{center}\end{footnotesize}\end{table*}
+\bottomrule[0.13em]\end{tabular}\end{center}\end{footnotesize}
+\vspace{-6pt}
+\vspace{-6pt}
+\end{table*}
